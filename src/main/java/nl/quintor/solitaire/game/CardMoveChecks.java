@@ -59,7 +59,7 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
-        // TODO: Write implementation
+
     }
 
     // Helper methods
