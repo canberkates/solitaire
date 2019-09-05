@@ -62,9 +62,6 @@ public class CardMoveChecks {
         if (sourceDeck.getInvisibleCards() >= sourceCardIndex) {
             throw(new MoveException("You can't move an invisible card"));
         }
-
-
-        // TODO: Write implementation
     }
 
     /**
@@ -78,7 +75,18 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
-
+        if (!targetDeck.isEmpty() && !opposingColor(cardToAdd, targetDeck.get(0))){
+            throw(new MoveException("Column cards have te alternate colors (red and black)"));
+        }
+        if (targetDeck.getDeckType() != DeckType.STACK && targetDeck.getDeckType() != DeckType.COLUMN){
+            throw(new MoveException("Target deck is neither Stack nor Column."));
+        }
+        if (targetDeck.getDeckType() == DeckType.STACK && cardToAdd.getRank() != Rank.ACE && targetDeck.isEmpty()){
+            throw(new MoveException("An Ace has to be the first card of a Stack Pile"));
+        }
+        if (targetDeck.getDeckType() == DeckType.STACK && targetDeck.get(0).getSuit() != cardToAdd.getSuit() && targetDeck.get(0).getRank() != cardToAdd.getRank()){
+            throw(new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King"));
+        }
     }
 
     // Helper methods
