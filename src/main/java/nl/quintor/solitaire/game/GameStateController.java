@@ -24,8 +24,32 @@ public class GameStateController {
      * @return a new GameState object, ready to go
      */
     public static GameState init(){
+        GameState gameState = new GameState();
+
+        Deck fulldeck = Deck.createDefaultDeck();
+        Collections.shuffle(fulldeck);
+        gameState.getStock().add(fulldeck.get(0));
+        gameState.getWaste().addAll(fulldeck.subList(1, 24));
+
+        for (String stackpiles : new String[] {"SA", "SB", "SC","SD"}) {
+            gameState.getStackPiles().put(stackpiles, new Deck(DeckType.STACK));
+        }
+
+        String[] columns = new String[] {"A","B","C","D","E","F","G"};
+        int i = 0;
+        int lastCard = 24;
+
+        while (i < columns.length) {
+            Deck columnDeck = new Deck(DeckType.COLUMN);
+            columnDeck.setInvisibleCards(i);
+            lastCard += i;
+            int nextCard = lastCard + (i+1);
+            columnDeck.addAll(fulldeck.subList(lastCard, nextCard));
+            gameState.getColumns().put(columns[i], columnDeck);
+            i++;
+        }
         // TODO: Write implementation
-        return new GameState();
+        return gameState;
     }
 
     /**
